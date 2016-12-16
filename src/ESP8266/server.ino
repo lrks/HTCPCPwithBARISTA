@@ -12,13 +12,13 @@ void handle_coffee();
 
 void setup() {
 	Serial.begin(9600);
-	
+
 	WiFi.begin(WIFI_SSID, WIFI_PASS);
 	WiFi.mode(WIFI_STA);
 	while (WiFi.status() != WL_CONNECTED) {
 		delay(500);
 	}
-	
+
 	server.on("/", handle_root);
 	server.on("/espresso", handle_coffee);
 	server.on("/black", handle_coffee);
@@ -27,12 +27,12 @@ void setup() {
 	server.on("/cafelatte", handle_coffee);
 	server.begin();
 
-  pinMode(LED_PIN, OUTPUT);
-  digitalWrite(LED_PIN, HIGH);
+	pinMode(LED_PIN, OUTPUT);
+	digitalWrite(LED_PIN, HIGH);
 }
 
 void loop() {
-  server.handleClient();
+	server.handleClient();
 }
 
 void handle_root() {
@@ -43,8 +43,8 @@ char drive_barista(char ch) {
 	Serial.write(ch);
 	Serial.flush();
 	while (1) {
-    if (Serial.available() > 0) break;
-    delay(500);
+		if (Serial.available() > 0) break;
+		delay(500);
 	}
 	return Serial.read();
 }
@@ -101,12 +101,12 @@ void handle_coffee() {
 		}
 		return;
 	}
-	
+
 	if (method == HTTP_WHEN) {
 		server.send(501, "text/html", "JFW");
 		return;
 	}
-	
+
 	server.sendHeader("Location","/");
 	server.send(303);
 }
